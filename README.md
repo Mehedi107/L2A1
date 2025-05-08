@@ -33,7 +33,7 @@ type Animal = {
 // };
 ```
 
-### **Unions and Intersections::**
+### **Unions and Intersections:**
 
 Type can define "union" & "intersection" but in interface these does not support directly.
 
@@ -55,4 +55,36 @@ Types can be use to create alias for primitive types or other non-object types. 
 ```
 // Type alias for a primitive type
 type ID = string;
+```
+
+## Use of **keyof** keyword in TypeScript
+
+The **keyof** keyword in TypeScript is used to extract the keys of a given type as a union of string literal types. It is a type operator that allows you to obtain a union of all property names of an object type.
+
+**Example:**
+
+```
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+
+type UserKeys = keyof User; // UserKeys is "id" | "name" | "age"
+
+const key1: UserKeys = "id";
+const key2: UserKeys = "name";
+const key3: UserKeys = "email";  // Error: Type '"email"' is not assignable to type '"id" | "name" | "age"'.
+
+// or,
+
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const user: User = { id: 1, name: "Alice", age: 25 };
+
+console.log(getProperty(user, "name")); // Output: "Alice"
+console.log(getProperty(user, "age"));  // Output: 25
+
 ```
